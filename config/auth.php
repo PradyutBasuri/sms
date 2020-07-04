@@ -17,7 +17,15 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
-
+  
+    'teacher' => [
+        'guard' => 'teacher',
+        'passwords' => 'users',
+    ],
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Model\Admin::class,
+    ],
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -40,7 +48,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        'teacher' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+       
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -70,7 +86,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
-
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Model\Admin::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
