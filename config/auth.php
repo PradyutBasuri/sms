@@ -17,7 +17,10 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
-  
+    'cleark' => [
+        'guard' => 'cleark',
+        'passwords' => 'users',
+    ],
     'teacher' => [
         'guard' => 'teacher',
         'passwords' => 'users',
@@ -48,6 +51,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'cleark' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
         'teacher' => [
             'driver' => 'session',
             'provider' => 'users',

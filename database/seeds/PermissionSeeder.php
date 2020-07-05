@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 class PermissionSeeder extends Seeder
 {
     /**
@@ -12,11 +14,18 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-           
+           'user-edit'
          ];
-    
+    $guards=[
+        'admin',
+        'teacher',
+        'web'
+    ];
          foreach ($permissions as $permission) {
-              Permission::create(['name' => $permission]);
+              
+              foreach($guards as $guards){
+                Permission::create(['name' => $permission,'guard_name'=>$guards]);
+              }
          }
     }
 }

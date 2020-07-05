@@ -1,8 +1,8 @@
 <?php
    
    return [
-   'USER'=>['admin' => '1', 'teacher' => '2','cleark'=>'3'],
-  
+   'USER'=>['0'=>'Admin', '1' => 'Teacher','2'=>'Cleark'],
+   'EXCEPT_ADMIN'=>['1' => 'Teacher','2'=>'Cleark'],
 ];
 
 ?>

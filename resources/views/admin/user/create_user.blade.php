@@ -1,4 +1,4 @@
-@extends('admin/layout/admin_template')
+@extends('layouts/admin_template')
 @section('content')
 
 
@@ -9,12 +9,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>City Add</h1>
+          <h1>User Add</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-            <li class="breadcrumb-item active">City Management</li>
+            <li class="breadcrumb-item"><a href="">Home</a></li>
+            <li class="breadcrumb-item active">User List</li>
           </ol>
         </div>
       </div>
@@ -39,7 +39,7 @@
           <!-- jquery validation -->
           <div class="card card-primary">
             
-            {!! Form::open(['url' => 'admin/city', 'name' => 'city_add_form', 'class' =>'', 'id' => 'city_add_form', 'method' => 'post','role'=>'','enctype'=>'multipart/form-data']) !!}
+            {!! Form::open(['url' => 'admin/user-save', 'name' => 'user_add_form', 'class' =>'', 'id' => 'user_add_form', 'method' => 'post','role'=>'','enctype'=>'multipart/form-data']) !!}
 
             <div class="card-body">
               @if(Session::has('success_message'))
@@ -51,36 +51,60 @@
             @endif
 
             <div class="row">
-             <div class="form-group col-12 col-md-6">
-                {!! Form::label('country_name','Select Country',['class'=>'']) !!}
-                <select class="form-control" id="country_name" name="country_name">
-                  <option value="">--Select--</option>
-                  @foreach($countryData as $value)
-                <option value ="{{$value->id}}">{{$value->country_name}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="form-group col-12 col-md-6">
-                {!! Form::label('state_name','Select State',['class'=>'']) !!}
-                <select class="form-control"  id="state_name" name="state_name">
-                  <option value="">--Select--</option>
-                 
-                </select>
-              </div>
+            
 
               <div class="form-group col-12 col-md-6">
-                {!! Form::label('city_name','Enter City Name',['class'=>'']) !!}
-                {!! Form::text('city_name','', ['class'=>'form-control','autocomplete'=>'off','id'=>'city_name', 'placeholder'=>'Enter City Name']) !!}
+                {!! Form::label('user_name','Enter Name',['class'=>'required']) !!}
+                {!! Form::text('user_name','', ['class'=>'form-control','autocomplete'=>'off','maxlength'=>'100', 'id'=>'user_name', 'placeholder'=>'Enter User Name']) !!}
               </div>
-             
+              <div class="form-group col-12 col-md-6">
+                {!! Form::label('user_email','Enter User Email',['class'=>'required']) !!}
+                {!! Form::text('user_email','', ['class'=>'form-control','autocomplete'=>'off','maxlength'=>'100','id'=>'user_email', 'placeholder'=>'Enter User Email']) !!}
+              </div>
+              <div class="form-group col-12 col-md-6">
+                {!! Form::label('user_mobile_no','Enter User Mobile No',['class'=>'required']) !!}
+                {!! Form::text('user_mobile_no','', ['class'=>'form-control','autocomplete'=>'off','maxlength'=>'20','id'=>'user_mobile_no', 'placeholder'=>'Enter User Mobile No']) !!}
+              </div>
             
-              <div class="form-group form-group col-12 col-md-6">
-              {!! Form::label('status','Status',['class'=>'']) !!}<br>
-              {{ Form::label('active_inactive', 'Active') }}
-              {{ Form::radio('active_inactive', '1',true) }}
-              &nbsp; &nbsp;
-              {{ Form::label('active_inactive', 'In Active') }}
-              {{ Form::radio('active_inactive', '0') }}
+              <div class="form-group col-12 col-md-6">
+                {!! Form::label('user_dob','Enter Date Of Birth',['class'=>'required']) !!}
+                {!! Form::text('user_dob','', ['class'=>'form-control','autocomplete'=>'off','id'=>'user_dob', 'placeholder'=>'Enter Date Of Birth']) !!}
+              </div>
+              <div class="form-group col-12 col-md-6">
+                {!! Form::label('password','Password',['class'=>'required']) !!}
+                {!! Form::text('password','', ['class'=>'form-control','autocomplete'=>'off','id'=>'password', 'placeholder'=>'Enter Password']) !!}
+              </div>
+              <div class="form-group col-12 col-md-6">
+                {!! Form::label('con_password','Confirm Password',['class'=>'required']) !!}
+                {!! Form::text('con_password','', ['class'=>'form-control','autocomplete'=>'off','id'=>'con_password', 'placeholder'=>'Enter Confirm Password']) !!}
+              </div>
+              <div class="form-group col-12 col-md-12">
+              <div class="custom-file custom_file_sec">
+                {!! Form::label('user_image','Profile Picture',['class'=>'required']) !!}
+                
+                {!! Form::file('user_image',['id'=>'user_image','class'=>'form-control','onchange'=>"validateFileExtension2(this),readURL1(this);"]) !!} 
+                <button type="button"><img src="{{asset('images/Blank.png')}}"  id="blah" width="240"  height="120"alt="blue"></button><br>
+                <!-- <span style="color: #002a80;font-size:85%;" class="info_adin_text">Max Size(2MB)</span> -->
+               
+                <span class="info_adin_text">Image size maxmum 2MB</span>
+                <br><button type="reset" id="pseudoCancel">
+                  Cancel
+                </button>
+
+
+                
+               
+                  </div>
+                </div>
+              <div class="form-group col-12 col-md-6">
+                {!! Form::label('user_type','Select User Type',['class'=>'required']) !!}
+                <select class="form-control" id="user_type" name="user_type">
+                  <option value="">--Select--</option>
+                  @foreach(config('global.EXCEPT_ADMIN') as $key=>$value)
+                <option value="{{$key}}">{{$value}}</option>
+
+                  @endforeach
+                </select>
               </div>
 
             </div>
@@ -116,39 +140,84 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#country_name').change(function(){
-      getStateName();
+    $('#pseudoCancel').click(function(){
+      $('#imagePreview_resume').removeAttr('src');
+      $('#imagePreview_resume').val('');
+      $('#blah').val('');
+      $('#blah').removeAttr('src');
+      $('#blah').attr('src',"{{asset('images/Blank.png')}}");
+  console.log("Pseudo Cancel button clicked.");
+    });
+    $("#user_dob").datepicker({
+    
+      dateFormat: 'dd/mm/yy'
+ 
+   
+    });
     });
 
-$('#city_add_form').validate({
+$('#user_add_form').validate({
       rules: {
-        state_name: {
+        user_name: {
           required  : true,
-         
-          
         },
-        city_name: {
+        user_email: {
           required  : true,
-          maxlength :255
-          
         },
-        country_name: {
+        user_dob: {
           required  : true,
        },
+       user_mobile_no:{
+        required  : true,
+       },
+       user_image: {
+          required  : true,
+          accept: "image/jpg,image/jpeg,image/png"
+          
+        },
+        user_type:{
+          required  : true,
+        },
+        password: {
+            required: true,
+           
+          },
+          con_password: {
+            required: true,
+            equalTo : "#password"
+          },
      },
       messages: {
-        state_name: {
-          required : "Please Select State",
+        user_name: {
+          required : "Please enter name",
         
         },
-        country_name:{
-          required : "Please Select Country",
+        user_email:{
+          required : "Please enter email",
         },
-        city_name:{
-          required : "Enter City Name",
-          maxlength:"City name should not cross 255 characters"
+        user_dob:{
+          required : "Please enter date of birth",
+         
         },
-        
+        user_mobile_no:{
+          required : "Please enter mobile no",
+         
+        },
+        user_image: {
+          required  : "Please upload an image",
+          accept : "Profile image accept only an image.It should be an jpg,jpeg,png."
+        },
+        user_type:{
+          required  : "Please select user type",
+        },
+        password: {
+            required: "Please enter password",
+           
+          },
+          con_password: {
+            required: "Please enter confirm password",
+            equalTo: "Password and confirm password should be same"
+          },
      },
       errorElement: 'span',
       errorPlacement: function(error, element) {
@@ -163,30 +232,40 @@ $('#city_add_form').validate({
       },
       
     });
-  });
+ 
+    function readURL1(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            reader.onload = function (e) {
+                $('#blah')
+                        .attr('src', e.target.result)
+                        .width(240)
+                        .height(120);
+            };
 
-  function getStateName(){
-       var token = $("input[name='_token']").val();
-       var  country_name=$('#country_name').val();
-       
-        $.ajax({
-            type: "post",            
-            url: "{{route('getStateName')}}",
-            data: {country_name: country_name, _token: token},
-            dataType: 'json',
-            success: function (data) {
-                $('#state_name').html('<option value="">-- Select --</option>');                
-                $.each(data, function (key, value) {                  
-                    $("#state_name").append('<option value=' + value.id  + '>' + value.state_name + '</option>');
-                });
-              
-            },
-          
-          
-
-        });
+            reader.readAsDataURL(input.files[0]);
+        }
     }
+    function validateFileExtension2(Source, args) {
+        var fuData = document.getElementById('user_image');
+        var FileUploadPath = fuData.value;
+        if (FileUploadPath == '') {
+            args.IsValid = false;
+        } else {
+            var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+            if (Extension == "jpg" || Extension == "jpeg" || Extension == "png" || Extension == "JPG" || Extension == "PNG") {
+                return true;
+            } else {
+                alert("'." + Extension + "' extention is not accepted"); // Not valid file type
+                document.getElementById('user_image').value = "";
+                $('#blah').attr('src',"{{asset('images/Blank.png')}}");
+                return false;
+            }
+        }
+
+    }
+
 </script>
 
 @stop

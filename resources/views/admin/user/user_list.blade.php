@@ -42,6 +42,16 @@
                         <p class="alert {{ Session::get('alert-class', 'alert-info') }} successErrorMessage">
                           {{ Session::get('failure_message') }}</p>
                         @endif
+                        <div  class="row">
+                            <div class="col-12 col-md-3 col-lg-3 mb-4 mb-md-0">
+                              <a href="{{route('getUserAdd')}}"><button class="btn btn-primary btnStyle_shrot ml-0">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add User</button>
+                              </a>
+                            </div>
+                        
+                           
+                          </div>
+                          <div class="custome_table table-responsive mt-3">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -49,6 +59,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Mobile No(s)</th>
+                                    <th>User Type</th>
                                     <th>Date Of Birth</th>
                                    
                                     <th>Action</th>
@@ -61,6 +72,7 @@
                                     <td>{{$user_details->name}}</td>
                                     <td>{{$user_details->email}}</td>
                                     <td>{{$user_details->mobile_no}}</td>
+                                    <td>{{config('global.EXCEPT_ADMIN.'.$user_details['user_type'])}}</td>
                                     <td>{{ date('d/m/Y H:i:s', strtotime($user_details['dob']))}}</td>
                                     
                                     <td class="">
@@ -78,6 +90,7 @@
                             </tbody>
 
                         </table>
+                    </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -110,6 +123,31 @@
       "responsive": true,
     });
   });
+
+  function deleteConfirmation(url) {
+ 
+    
+ Swal.fire({
+ title: "Delete?",
+ text: "Are you sure to delete this record?",
+ type: "",
+ showCancelButton: !0,
+ confirmButtonText: "Yes, delete it!",
+ cancelButtonText: "No, cancel!",
+ reverseButtons: !0
+}).then(function (e) {
+ console.log(e)
+ if (e.value === true) {
+   location.href=url;
+
+ } else {
+     e.dismiss;
+ }
+
+}, function (dismiss) {
+ return false;
+})
+}
 </script>
 
 

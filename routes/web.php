@@ -43,8 +43,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'Admi
 
 /*****************************User************************************************** */
 Route::get('/user-list', 'User\userController@index')->name('getUserList');
+Route::get('/user-add', 'User\userController@add')->name('getUserAdd');
+Route::post('/user-save', 'User\userController@save')->name('postUserAdd');
 Route::get('/user-edit/{id}', 'User\userController@edit')->name('getUserEdit');
-Route::get('/user-delete/{id}', 'User\userController@delete')->name('getUserDelete');
+Route::POST('/user-update/{id}', 'User\userController@update')->name('getUserUpdate');
+Route::get('/user-delete/{id}', 'User\userController@destroy')->name('getUserDelete');
 
 Route::resource('roles','User\userPermissionController');
 

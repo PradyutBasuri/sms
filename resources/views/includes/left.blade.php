@@ -90,10 +90,10 @@
              
              
               <li class="nav-item">
-                <a href="" class="nav-link <?php if(isset($skill_class)){ echo 'active';} ?>">
+                <a href="" class="nav-link <?php if(isset($role_class)){ echo 'active';} ?>">
                   <i class="nav-icon fas fa-pen-square"></i>
                 
-                  <p>Skill Management</p>
+                  <p>Role Management</p>
                 </a>
               </li>
              
